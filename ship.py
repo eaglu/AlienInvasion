@@ -27,11 +27,11 @@ class Ship:
     def update(self):
         """Update the ship's position by moving flag,speed based on ship_speed from setting,limited by screen."""
         if self.moving_right and self.rect.right < self.screen_rect.right:
-            self.rect.x += self.settings.ship_speed
+            self.x += self.settings.ship_speed
         if self.moving_left and self.rect.left > 0:
-            self.rect.x -= self.settings.ship_speed
+            self.x -= self.settings.ship_speed
 
-        # Update the ship's x value based on self.x.
+        # Update rect object horizontal position by self.x
         self.rect.x = self.x
 
     def blitme(self):
