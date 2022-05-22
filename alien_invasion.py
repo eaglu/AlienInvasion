@@ -34,12 +34,12 @@ class AlienInvasion:
             self._check_events()
             # Update the ship's position
             self.ship.update()
-            # Update bullets position
-            self.bullets.update()
-            # Redraw the screen during each pass through the loop.
-            self._update_screen()
             # update bullets status
             self._update_bullets()
+            # update alien status
+            self._update_aliens()
+            # Redraw the screen during each pass through the loop.
+            self._update_screen()
 
     def _check_events(self):
         """Respond to keypresses and mouse events."""
@@ -92,6 +92,14 @@ class AlienInvasion:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
+    def _update_aliens(self):
+        """Update all aliens position"""
+        self.aliens.update()
+        """Check if any alien hit the edge
+        and update aliens' position"""
+        self._check_fleet_edges()
+        self.aliens.update()
+
     def _create_alien(self, alien_number, row_number):
         alien = Alien(self)
         alien_width, alien_hight = alien.rect.size
@@ -118,6 +126,19 @@ class AlienInvasion:
         for row_number in range(number_rows):
             for alien_number in range(number_aliens_x):
                 self._create_alien(alien_number, row_number)
+
+    def _check_fleet_edges(self):
+        """Response when alien hits the edge"""
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+
+    def _change_fleet_direction(self):
+        """Drop the entire aliens and change the aliens' direction."""
+        for alien in self.aliens.sprites():
+            alien.rect.y += self.settings.fleet_drop_speed
+        self.settings.fleet_direction *= -1
 
 
 if __name__ == "__main__":
