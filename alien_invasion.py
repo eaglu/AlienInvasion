@@ -1,13 +1,12 @@
 import sys
-from time import sleep
 
 import pygame
 
-from settings import Settings
-from game_stats import GameStats
-from ship import Ship
-from bullet import Bullet
 from alien import Alien
+from bullet import Bullet
+from game_stats import GameStats
+from settings import Settings
+from ship import Ship
 
 
 class AlienInvasion:
@@ -45,7 +44,6 @@ class AlienInvasion:
                 self._update_bullets()
                 # update alien status
                 self._update_aliens()
-
 
             # Redraw the screen during each pass through the loop.
             self._update_screen()
@@ -117,7 +115,6 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
 
-
     def _create_alien(self, alien_number, row_number):
         alien = Alien(self)
         alien_width, alien_hight = alien.rect.size
@@ -182,7 +179,6 @@ class AlienInvasion:
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
 
-
     def _ship_hit(self):
         """Response to ship hit by alien"""
         if self.stats.ships_left > 0:
@@ -199,6 +195,7 @@ class AlienInvasion:
         else:
             # Pause
             self.stats.game_active = False
+
 
 if __name__ == "__main__":
     a = AlienInvasion()
