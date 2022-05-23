@@ -37,12 +37,16 @@ class AlienInvasion:
         while True:
             # Watch for keyboard and mouse events.
             self._check_events()
-            # Update the ship's position
-            self.ship.update()
-            # update bullets status
-            self._update_bullets()
-            # update alien status
-            self._update_aliens()
+
+            if not self.stats.game_active:
+                # Update the ship's position
+                self.ship.update()
+                # update bullets status
+                self._update_bullets()
+                # update alien status
+                self._update_aliens()
+
+
             # Redraw the screen during each pass through the loop.
             self._update_screen()
 
@@ -113,6 +117,15 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
 
+
+    def _create_alien(self, alien_number, row_number):
+        alien = Alien(self)
+        alien_width, alien_hight = alien.rect.size
+        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.rect.x = alien.x
+        alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
+        self.aliens.add(alien)
+
     def _update_aliens(self):
         """Update all aliens position"""
         self.aliens.update()
@@ -125,13 +138,8 @@ class AlienInvasion:
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
 
-    def _create_alien(self, alien_number, row_number):
-        alien = Alien(self)
-        alien_width, alien_hight = alien.rect.size
-        alien.x = alien_width + 2 * alien_width * alien_number
-        alien.rect.x = alien.x
-        alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
-        self.aliens.add(alien)
+        # Check if any alien hits the bottom of the screen
+        self._check_aliens_bottom()
 
     def _create_fleet(self):
         # Create an alien and calculate the number of aliens in a row.
@@ -159,6 +167,15 @@ class AlienInvasion:
                 self._change_fleet_direction()
                 break
 
+    def _check_aliens_bottom(self):
+        """Check if aliens get to the bottom of the screen"""
+        screen_rect = self.screen.get_rect()
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= screen_rect.bottom:
+                # Treat this the same as if the ship got hit.
+                self._ship_hit()
+                break
+
     def _change_fleet_direction(self):
         """Drop the entire aliens and change the aliens' direction."""
         for alien in self.aliens.sprites():
@@ -168,20 +185,20 @@ class AlienInvasion:
 
     def _ship_hit(self):
         """Response to ship hit by alien"""
+        if self.stats.ships_left > 0:
+            # Decrease ship's live
+            self.stats.ships_left -= 1
 
-        # Decrease ship's live
-        self.stats.ships_left -= 1
+            # Clear aliens and bullets remain
+            self.aliens.empty()
+            self.bullets.empty()
 
-        # Clear aliens and bullets remain
-        self.aliens.empty()
-        self.bullets.empty()
-
-        # Create new aliens and center the ship
-        self._create_fleet()
-        self.ship.center_ship()
-
-        # Pause
-        sleep(0.5)
+            # Create new aliens and center the ship
+            self._create_fleet()
+            self.ship.center_ship()
+        else:
+            # Pause
+            self.stats.game_active = False
 
 if __name__ == "__main__":
     a = AlienInvasion()
