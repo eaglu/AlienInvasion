@@ -41,7 +41,7 @@ class AlienInvasion:
             # Watch for keyboard and mouse events.
             self._check_events()
 
-            if  self.stats.game_active:
+            if self.stats.game_active:
                 # Update the ship's position
                 self.ship.update()
                 # update bullets status
@@ -82,7 +82,6 @@ class AlienInvasion:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
-
 
     def _check_play_button(self, mouse_pos):
         """When player clicks the play button, start a new game."""

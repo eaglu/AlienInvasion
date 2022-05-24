@@ -1,3 +1,5 @@
+import pygame
+
 class Button:
 
     def __init__(self, ai_game, msg):
@@ -18,11 +20,10 @@ class Button:
         # The button message only needs to be created once.
         self._prep_msg(msg)
 
-
     def _prep_msg(self, msg):
         """Turn msg into a image and set the text on center of the button."""
         self.msg_image = self.font.render(msg, True, self.text_color,
-                self.button_color)
+                                          self.button_color)
         self.msg_image_rect = self.msg_image.get_rect()
         self.msg_image_rect.center = self.rect.center
 
