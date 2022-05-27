@@ -1,14 +1,16 @@
+import random
 import sys
 
 import pygame
 
 from alien import Alien
 from bullet import Bullet
+from button import Button
 from game_stats import GameStats
 from scoreboard import ScoreBoard
-from button import Button
 from settings import Settings
 from ship import Ship
+from star import Star
 
 
 class AlienInvasion:
@@ -31,10 +33,12 @@ class AlienInvasion:
 
         # Create game characters
         self.ship = Ship(self)
+        self.stars = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
 
         self._create_fleet()
+        self._create_stars()
 
         # Create play button
         self.play_button = Button(self, "Play")
@@ -118,7 +122,12 @@ class AlienInvasion:
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
         self.screen.fill(self.settings.bg_color)
+
+        # Show stars
+        self.stars.draw(self.screen)
+
         self.ship.blitme()
+
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.aliens.draw(self.screen)
@@ -249,6 +258,37 @@ class AlienInvasion:
         else:
             # Pause
             self.stats.game_active = False
+
+    def _create_stars(self):
+        """Create stars randomly"""
+
+        # Get star size and screen size
+        star = Star(self)
+        star_width, star_height = star.rect.size
+        scr_width, scr_height = self.screen.get_size()
+
+        # Get how many stars can a row or a list contains
+        row_number = scr_height // star_height
+        list_number = scr_width // star_width
+
+        # Zip their index together and see how many stars to init
+        star_number = min(row_number, list_number)
+        row_indexes = random.sample(range(0, row_number), star_number)
+        list_indexes = random.sample(range(0, list_number), star_number)
+        zipped_pos = zip(row_indexes, list_indexes)
+
+        for pos in zipped_pos:
+            row_index, list_index = pos
+            self._create_star(row_index, list_index)
+
+    def _create_star(self, row_index, list_index):
+        """Create an star and place it by row_index and list_index."""
+        star = Star(self)
+        star_width, star_height = star.rect.size
+        star.rect.x = star_width * list_index
+        star.rect.y = star_height * row_index
+
+        self.stars.add(star)
 
 
 if __name__ == "__main__":
