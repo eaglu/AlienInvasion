@@ -21,14 +21,14 @@ class Settings:
         # Setting for alien
         self.alien_speed = 1.0
         self.fleet_drop_speed = 10
-        # fleet_direction of 1 means right; -1 means left.
+        # fleet_direction of 1 means down; -1 means up.
         self.fleet_direction = 1
 
         # Improve game speed
         self.speedup_scale = 1.1
 
         # Alien score scale
-        self.score_scale =1.5
+        self.score_scale = 1.5
 
         self.initialize_dynamic_settings()
 
@@ -49,6 +49,5 @@ class Settings:
         self.ship_speed *= self.speedup_scale
         self.bullet_speed *= self.speedup_scale
         self.alien_speed *= self.speedup_scale
-
 
         self.alien_points = int(self.alien_points * self.score_scale)

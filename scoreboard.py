@@ -1,7 +1,8 @@
 import pygame.font
-from  pygame.sprite import Group
+from pygame.sprite import Group
 
 from ship import Ship
+
 
 class ScoreBoard:
     """A class to show score info"""
@@ -25,8 +26,6 @@ class ScoreBoard:
 
     def prep_score(self):
         """Prepare score image"""
-        rounded_score = round(self.stats.score, -1)
-        score_str = "{:,}".format(rounded_score)
         score_str = str(self.stats.score)
         self.score_image = self.font.render(score_str, True,
                                             self.text_color, self.settings.bg_color)
@@ -72,8 +71,6 @@ class ScoreBoard:
         if self.stats.score > self.stats.high_score:
             self.stats.high_score = self.stats.score
             self.prep_high_score()
-
-
 
     def show_score(self):
         """Show score ,level and count of alien remains on the screen"""
