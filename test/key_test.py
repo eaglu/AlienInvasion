@@ -55,5 +55,6 @@ class MoveTest(unittest.TestCase):
         ai_game._check_events()
         assert len(ai_game.bullets) == 3
 
+
 if __name__ == '__main__':
     unittest.main()
