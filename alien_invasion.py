@@ -20,7 +20,7 @@ class AlienInvasion:
         pygame.init()
 
         self.settings = Settings()
-        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((1200, 800))
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion")
@@ -81,6 +81,7 @@ class AlienInvasion:
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
         elif event.key == pygame.K_q:
+            self.stats.check_highest_score()
             sys.exit()
 
     def _check_keyup_events(self, event):
@@ -257,6 +258,8 @@ class AlienInvasion:
             self.ship.center_ship()
         else:
             # Pause
+            self.stats.check_highest_score()
+            pygame.mouse.set_visible(True)
             self.stats.game_active = False
 
     def _create_stars(self):
@@ -282,7 +285,7 @@ class AlienInvasion:
             self._create_star(row_index, list_index)
 
     def _create_star(self, row_index, list_index):
-        """Create an star and place it by row_index and list_index."""
+        """Create a star and place it by row_index and list_index."""
         star = Star(self)
         star_width, star_height = star.rect.size
         star.rect.x = star_width * list_index

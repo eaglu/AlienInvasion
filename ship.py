@@ -1,3 +1,5 @@
+import os
+
 import pygame
 from pygame.sprite import Sprite
 
@@ -13,7 +15,8 @@ class Ship(Sprite):
         self.screen_rect = ai_game.screen.get_rect()
 
         # Load the ship image and get its rect.
-        self.image = pygame.image.load('images/ship.bmp')
+        self.file_path = os.path.join(os.path.dirname(__file__), 'images/ship.bmp')
+        self.image = pygame.image.load(self.file_path)
         self.rect = self.image.get_rect()
 
         # Set ship's position in the left of the screen.

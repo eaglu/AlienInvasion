@@ -1,3 +1,5 @@
+import os
+
 import pygame
 from pygame.sprite import Sprite
 
@@ -12,7 +14,8 @@ class Alien(Sprite):
         self.settings = ai_game.settings
 
         # Load alien image from images and set its rect
-        self.image = pygame.image.load('images/alien.bmp')
+        self.file_path = os.path.join(os.path.dirname(__file__), 'images/alien.bmp')
+        self.image = pygame.image.load(self.file_path)
         self.rect = self.image.get_rect()
 
         # Start aliens default position to the top right corner

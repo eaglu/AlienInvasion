@@ -1,3 +1,5 @@
+import os
+
 import pygame
 from pygame.sprite import Sprite
 
@@ -9,7 +11,8 @@ class Star(Sprite):
         self.screen_rect = ai_game.screen.get_rect()
 
         # Load alien image from images and set its rect
-        self.image = pygame.image.load('images/star.bmp')
+        self.file_path = os.path.join(os.path.dirname(__file__), 'images/star.bmp')
+        self.image = pygame.image.load(self.file_path)
         self.rect = self.image.get_rect()
 
         # Start each new star at the top left of the screen

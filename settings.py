@@ -44,9 +44,6 @@ class Settings:
         # Record score
         self.alien_points = 50
 
-        # Star number
-        self.stars_number = randint(10, 20)
-
     def increase_speed(self):
         """Improve speed setting and alien point"""
         self.ship_speed *= self.speedup_scale
