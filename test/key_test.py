@@ -7,7 +7,7 @@ from pygame.event import Event
 import alien_invasion
 
 
-class MoveTest(unittest.TestCase):
+class KeyTest(unittest.TestCase):
 
     def move_up(self: alien_invasion.AlienInvasion):
         """Mock AlienInvasion._check_events() to move ship up by events."""
